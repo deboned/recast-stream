@@ -6,7 +6,11 @@ var fs = require('vinyl-fs');
 var recast = require('recast');
 var through = require('through2');
 
-var parse = function(opt) {
+function Streamer() { }
+
+Streamer.prototype.src = fs.src;
+
+Streamer.prototype.parse = function(opt) {
 
   function parser(file, encoding, callback) {
 
@@ -20,14 +24,6 @@ var parse = function(opt) {
   }
 
   return through.obj(parser);
-}
-
-
-function Streamer() { }
-
-Streamer.prototype.src = function(filesArray) {
-  return fs.src(['./node_modules/backbone.nativeview/backbone.nativeview.js'])
-    .pipe(parse());
 };
 
 Streamer.prototype.print = function() {
